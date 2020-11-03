@@ -7,9 +7,9 @@ from xlutils.copy import copy
 def dataInf(length):
     DataInf = []
     for i in range(1, length):
-        if table.cell(i, 4).value == '':
+        if table1.cell(i, 4).value == '':
             continue
-        a = int(table.cell(i, 4).value)
+        a = int(table1.cell(i, 4).value)
         if a > 0:
             DataInf.append(a)
     print(len(DataInf))
@@ -27,7 +27,7 @@ def dataInf(length):
 
 
 # 年份与论文发表数量柱状图
-def img(year, num):
+def imgPaperDate(year, num):
     plt.figure(figsize=(10, 5))
     plt.bar(year, num, width=0.5)
     # 柱状图上显示数据
@@ -44,9 +44,9 @@ def TobePublished(length):
     numP = 0
     numNP = 0
     for i in range(1, length):
-        if table.cell(i, 1).value == '':
+        if table1.cell(i, 1).value == '':
             continue
-        if table.cell(i, 1).value == 'To be published':
+        if table1.cell(i, 1).value == 'To be published':
             numNP += 1
         else:
             numP += 1
@@ -55,17 +55,16 @@ def TobePublished(length):
 
 if __name__ == '__main__':
     # 获取excel信息
-    data = xlrd.open_workbook('PDB_Excel.xls', formatting_info=True)
-    excel = copy(wb=data)  # 完成xlrd对象向xlwt对象转换
-    excel_table = excel.get_sheet(0)  # 获得要操作的页
-    table = data.sheet_by_index(0)
+    data1 = xlrd.open_workbook('PDB_Excel.xls', formatting_info=True)
+    excel1 = copy(wb=data1)  # 完成xlrd对象向xlwt对象转换
+    table1 = data1.sheet_by_index(0)
 
     # pdb结构数量
-    pdbNum = table.nrows
+    pdbNum = table1.nrows
 
     # 每年发表的论文数量
     paperYear, paperNum = dataInf(pdbNum)
     # 绘柱状图
-    img(paperYear, paperNum)
+    imgPaperDate(paperYear, paperNum)
     # 统计未发表的结构数量
     TobePublished(pdbNum)
